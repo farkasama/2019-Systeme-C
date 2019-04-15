@@ -12,6 +12,6 @@ struct Memoire_Partage {
 typedef struct MESSAGE MESSAGE;
 
 struct MESSAGE {
-    int type;
-    void* mp;
+    int permission;
+    Memoire_Partage* mp;
 };
