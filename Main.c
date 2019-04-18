@@ -1,15 +1,8 @@
- #include <stdio.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <sys/mman.h>
-#include "STRUCTURE.c"
+#include "Connect.c"
 
 
  int main(int argc, char *argv[]) {
-    Memoire_Partage mp;
-    mp.liste[34];
-    printf("%zu\n", sizeof(mp));
-     printf("%zu\n", 2* sizeof(int) + 2* sizeof(size_t));
+    MESSAGE* m = msg_connect("test", O_RDWR|O_CREAT|O_EXCL, 10, 10);
+    printf("%zu\n", m->mp->longueur);
     return 0;
 }
