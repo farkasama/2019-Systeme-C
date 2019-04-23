@@ -8,6 +8,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <stdlib.h>
+#include <errno.h>
 
 #include "STRUCTURE.c"
 
@@ -16,6 +17,17 @@ MESSAGE* msg_connect(const char* nom, int options, size_t nb_message, size_t len
     if (m == NULL) {
         perror("malloc error");
         return NULL;
+    }
+
+    if (nom == NULL) {
+        m->permission = O_RDWR;
+
+        m->mp = mmap(NULL, sizeof(Memoire_Partage) + nb_message*len_max, PROT_READ|PROT_WRITE, MAP_SHARED|MAP_ANONYMOUS, -1, 0);
+
+        if (m->mp = MAP_FAILED) {
+            perror("mmap anonyme");
+            return NULL;
+        }
     }
 
     if ((options & O_RDONLY) == O_RDONLY) {
