@@ -1,15 +1,3 @@
-#include <stdio.h>
-#include <string.h>
-#include <sys/mman.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <stdlib.h>
-#include <errno.h>
-
 #include "STRUCTURE.c"
 
 MESSAGE* msg_connect(const char* nom, int options, size_t nb_message, size_t len_max) {

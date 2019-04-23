@@ -1,1 +1,1 @@
-/usr/bin/cc    CMakeFiles/untitled.dir/Main.c.o CMakeFiles/untitled.dir/etatfile.c.o  -o untitled 
+/usr/bin/cc -g   CMakeFiles/untitled.dir/Main.c.o CMakeFiles/untitled.dir/etatfile.c.o  -o untitled 
