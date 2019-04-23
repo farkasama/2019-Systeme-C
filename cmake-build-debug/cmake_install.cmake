@@ -1,4 +1,4 @@
-# Install script for directory: /home/etienne/TP/M1/S2/Systeme C/Projet-Systeme-C
+# Install script for directory: /home/will/CLionProjects/Projet-Systeme-C
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/etienne/TP/M1/S2/Systeme C/Projet-Systeme-C/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/will/CLionProjects/Projet-Systeme-C/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

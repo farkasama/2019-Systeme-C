@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/etienne/TP/M1/S2/Systeme C/Projet-Systeme-C/Connect.c
+/home/will/CLionProjects/Projet-Systeme-C/Connect.c
 stdio.h
 -
 string.h
@@ -27,12 +27,14 @@ sys/wait.h
 -
 stdlib.h
 -
+errno.h
+-
 STRUCTURE.c
-/home/etienne/TP/M1/S2/Systeme C/Projet-Systeme-C/STRUCTURE.c
+/home/will/CLionProjects/Projet-Systeme-C/STRUCTURE.c
 
-/home/etienne/TP/M1/S2/Systeme C/Projet-Systeme-C/Main.c
+/home/will/CLionProjects/Projet-Systeme-C/Main.c
 Connect.c
-/home/etienne/TP/M1/S2/Systeme C/Projet-Systeme-C/Connect.c
+/home/will/CLionProjects/Projet-Systeme-C/Connect.c
 
-/home/etienne/TP/M1/S2/Systeme C/Projet-Systeme-C/STRUCTURE.c
+/home/will/CLionProjects/Projet-Systeme-C/STRUCTURE.c
 
