@@ -17,6 +17,8 @@ struct Memoire_Partage {
     size_t capacite;
     int first;
     int last;
+    int acces;
+    int nb_proc;
     //semaphore
     void* liste[];
 };

@@ -21,10 +21,10 @@ MESSAGE* msg_connect(const char* nom, int options, size_t nb_message, size_t len
     if ((options & O_RDONLY) == O_RDONLY) {
         m->permission = O_RDONLY;
     }
-    else if ((options & O_WRONLY) == O_WRONLY) {
+    if ((options & O_WRONLY) == O_WRONLY) {
         m->permission = O_WRONLY;
     }
-    else if ((options & O_RDWR) == O_RDWR) {
+    if ((options & O_RDWR) == O_RDWR) {
         m->permission = O_RDWR;
     }
     else {
@@ -32,7 +32,7 @@ MESSAGE* msg_connect(const char* nom, int options, size_t nb_message, size_t len
         return NULL;
     }
 
-    int fd = open(nom, options, 0600);
+    int fd = shm_open(nom, options, 0600);
     if (fd == -1) {
         perror("erreur open");
         return NULL;
@@ -51,6 +51,11 @@ MESSAGE* msg_connect(const char* nom, int options, size_t nb_message, size_t len
             perror("echec mmap");
             return NULL;
         }
+        if (m->mp->acces) {
+            perror("acces interdit (msg_unlink");
+            return NULL;
+        }
+        m->mp->nb_proc++;
         return m;
     }
 
@@ -69,10 +74,13 @@ MESSAGE* msg_connect(const char* nom, int options, size_t nb_message, size_t len
         perror("erreur mmap");
         return NULL;
     }
+
     m->mp->longueur = len_max;
     m->mp->capacite = nb_message;
     m->mp->first = -1;
     m->mp->last = 0;
+    m->mp->acces = 0;
+    m->mp->nb_proc = 1;
     m->mp->liste[nb_message];
     msync(m->mp, len, MS_SYNC);
     return m;

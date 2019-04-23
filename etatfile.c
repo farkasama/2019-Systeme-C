@@ -30,7 +30,7 @@ size_t msg_capacite(MESSAGE *m) {
 size_t msg_nb(MESSAGE *m) {
     if (m == NULL) {
         perror("message inutilisable");
-        return -1:
+        return -1;
     }
     if (m->mp == NULL) {
         perror("message partagée inutlisable");
