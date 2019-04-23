@@ -1,0 +1,38 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/etienne/TP/M1/S2/Systeme C/Projet-Systeme-C/Connect.c
+stdio.h
+-
+string.h
+-
+sys/mman.h
+-
+unistd.h
+-
+sys/types.h
+-
+sys/stat.h
+-
+fcntl.h
+-
+sys/types.h
+-
+sys/wait.h
+-
+stdlib.h
+-
+STRUCTURE.c
+/home/etienne/TP/M1/S2/Systeme C/Projet-Systeme-C/STRUCTURE.c
+
+/home/etienne/TP/M1/S2/Systeme C/Projet-Systeme-C/Main.c
+Connect.c
+/home/etienne/TP/M1/S2/Systeme C/Projet-Systeme-C/Connect.c
+
+/home/etienne/TP/M1/S2/Systeme C/Projet-Systeme-C/STRUCTURE.c
+
