@@ -3,4 +3,4 @@ project(untitled C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(untitled Main.c etatfile.c)
+add_executable(untitled Main.c etatfile.c Receive.c)
