@@ -1,4 +1,4 @@
-/snap/clion/67/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" "/home/etienne/TP/M1/S2/Systeme C/Projet-Systeme-C"
+/snap/clion/69/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/will/CLionProjects/Projet-Systeme-C
 -- The C compiler identification is GNU 7.3.0
 -- Check for working C compiler: /usr/bin/cc
 -- Check for working C compiler: /usr/bin/cc -- works
@@ -8,4 +8,4 @@
 -- Detecting C compile features - done
 -- Configuring done
 -- Generating done
--- Build files have been written to: /home/etienne/TP/M1/S2/Systeme C/Projet-Systeme-C/cmake-build-debug
+-- Build files have been written to: /home/will/CLionProjects/Projet-Systeme-C/cmake-build-debug

@@ -1,6 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/untitled.dir/Main.c.o"
   "CMakeFiles/untitled.dir/etatfile.c.o"
+  "CMakeFiles/untitled.dir/Receive.c.o"
   "untitled.pdb"
   "untitled"
 )
