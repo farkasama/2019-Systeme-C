@@ -1,6 +1,6 @@
 #include "Connect.c"
 
-int verification(MESSAGE* file, size_t len) {
+int verification_send(MESSAGE* file, size_t len) {
     if (file == NULL) {
         perror("message inutilisable");
         return -1;
@@ -28,13 +28,22 @@ int verification(MESSAGE* file, size_t len) {
 int envoie (MESSAGE* file, const char* msg, size_t len) {
     int indice;
 
+    if (sem_wait(file->mp->sem_first) == -1) {
+        perror("error semaphore wait send");
+        return -1;
+    }
     if (file->mp->first == -1) {
         indice = file->mp->last;
         file->mp->first = (file->mp->last+1)%file->mp->capacite;
+        //printf("%d\n", indice);
     }
     else  {
         indice = file->mp->first;
         file->mp->first = (file->mp->first+1)%file->mp->capacite;
+    }
+    if (sem_post(file->mp->sem_first) == -1) {
+        perror("error semaphore release send");
+        return -1;
     }
 
 
@@ -45,35 +54,24 @@ int envoie (MESSAGE* file, const char* msg, size_t len) {
             return -1;
         }
     }
-    else {
-        file->mp->liste[indice] = realloc(file->mp->liste[indice], len);
-        if (file->mp->liste[indice] == NULL) {
-            perror("error realloc");
-            return -1;
-        }
-    }
     memcpy(file->mp->liste[indice], msg, len);
     return 0;
 }
 
 int msg_send(MESSAGE* file, const char* msg, size_t len) {
 
-    if (verification(file, len) == -1) {
+    if (verification_send(file, len) == -1) {
         return -1;
     }
 
     while(file->mp->first == file->mp->last);
 
-    if (envoie(file, msg, len) == -1) {
-        return -1;
-    }
-
-    return 0;
+    return envoie(file, msg, len);
 }
 
 int msg_trysend(MESSAGE* file, const char* msg, size_t len) {
 
-    if (verification(file, len) == -1) {
+    if (verification_send(file, len) == -1) {
         return -1;
     }
 
@@ -82,9 +80,5 @@ int msg_trysend(MESSAGE* file, const char* msg, size_t len) {
         return -1;
     }
 
-    if (envoie(file, msg, len) == -1) {
-        return -1;
-    }
-
-    return 0;
+    return envoie(file, msg, len);
 }

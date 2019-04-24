@@ -9,6 +9,7 @@
 #include <sys/wait.h>
 #include <stdlib.h>
 #include <errno.h>
+#include <semaphore.h>
 
 typedef struct Memoire_Partage Memoire_Partage;
 struct Memoire_Partage {
@@ -17,9 +18,9 @@ struct Memoire_Partage {
     size_t capacite;
     int first;
     int last;
-    int acces;
     int nb_proc;
-    //semaphore
+    sem_t* sem_first;
+    sem_t* sem_last;
     void* liste[];
 };
 

@@ -1,7 +1,7 @@
 #include "STRUCTURE.c"
 
-MESSAGE* msg_connect(const char* nom, int options, size_t nb_message, size_t len_max) {
-    MESSAGE* m = malloc(sizeof(MESSAGE));
+MESSAGE *msg_connect(const char *nom, int options, size_t nb_message, size_t len_max) {
+    MESSAGE *m = malloc(sizeof(MESSAGE));
     if (m == NULL) {
         perror("malloc error");
         return NULL;
@@ -10,12 +10,20 @@ MESSAGE* msg_connect(const char* nom, int options, size_t nb_message, size_t len
     if (nom == NULL) {
         m->permission = O_RDWR;
 
-        m->mp = mmap(NULL, sizeof(Memoire_Partage) + nb_message*len_max, PROT_READ|PROT_WRITE, MAP_SHARED|MAP_ANONYMOUS, -1, 0);
+        m->mp = mmap(NULL, sizeof(Memoire_Partage) + nb_message * len_max, PROT_READ | PROT_WRITE,
+                     MAP_SHARED | MAP_ANONYMOUS, -1, 0);
 
         if (m->mp = MAP_FAILED) {
             perror("mmap anonyme");
             return NULL;
         }
+    } else if (strchr(nom, '/') == NULL) {
+        char *n = malloc(sizeof(char) * (strlen(nom) + 1));
+        strcpy(n, "/");
+        nom = strcat(n, nom);
+    } else if (strchr(nom, '/') != nom) {
+        perror("error name with '/'");
+        return NULL;
     }
 
     if ((options & O_RDONLY) == O_RDONLY) {
@@ -26,8 +34,7 @@ MESSAGE* msg_connect(const char* nom, int options, size_t nb_message, size_t len
     }
     if ((options & O_RDWR) == O_RDWR) {
         m->permission = O_RDWR;
-    }
-    else {
+    } else {
         perror("aucune permission accorde");
         return NULL;
     }
@@ -46,20 +53,32 @@ MESSAGE* msg_connect(const char* nom, int options, size_t nb_message, size_t len
         }
         int len = st.st_size;
         m->mp = malloc(len);
-        m->mp = mmap(NULL, len, PROT_READ|PROT_WRITE, MAP_SHARED, fd, 0);
+        m->mp = mmap(0, len, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
         if (m->mp == MAP_FAILED) {
             perror("echec mmap");
             return NULL;
         }
-        if (m->mp->acces) {
-            perror("acces interdit (msg_unlink");
+        char* name_sem = malloc(sizeof(char)*(strlen(nom)+6));
+        strcpy(name_sem, nom);
+        name_sem = strcat(name_sem, "_first");
+        m->mp->sem_first = sem_open(name_sem, 0);
+        if (m->mp->sem_first== SEM_FAILED) {
+            perror("error creation semaphore first already exist");
+            return NULL;
+        }
+
+        strcpy(name_sem, nom);
+        name_sem = strcat(name_sem, "_last");
+        m->mp->sem_last = sem_open(name_sem, 0);
+        if (m->mp->sem_last == SEM_FAILED) {
+            perror("error cration semaphore last already exist");
             return NULL;
         }
         m->mp->nb_proc++;
         return m;
     }
 
-    int len = sizeof(Memoire_Partage) + nb_message*len_max;
+    int len = sizeof(Memoire_Partage) + nb_message * len_max;
 
     if (ftruncate(fd, len) == -1) {
         perror("ftruncate error");
@@ -68,7 +87,7 @@ MESSAGE* msg_connect(const char* nom, int options, size_t nb_message, size_t len
 
     //m->mp = malloc(sizeof(Memoire_Partage));
 
-    m->mp = mmap(0, len, PROT_WRITE|PROT_READ, MAP_SHARED, fd, 0);
+    m->mp = mmap(0, len, PROT_WRITE | PROT_READ, MAP_SHARED, fd, 0);
 
     if (m->mp == MAP_FAILED) {
         perror("erreur mmap");
@@ -79,9 +98,26 @@ MESSAGE* msg_connect(const char* nom, int options, size_t nb_message, size_t len
     m->mp->capacite = nb_message;
     m->mp->first = -1;
     m->mp->last = 0;
-    m->mp->acces = 0;
     m->mp->nb_proc = 1;
     m->mp->liste[nb_message];
+
+    char* name_sem = malloc(sizeof(char)*(strlen(nom)+6));
+    strcpy(name_sem, nom);
+    name_sem = strcat(name_sem, "_first");
+    m->mp->sem_first = sem_open(name_sem, O_CREAT, 0600, 1);
+    if (m->mp->sem_first== SEM_FAILED) {
+        perror("error creation semaphore first");
+        return NULL;
+    }
+
+    strcpy(name_sem, nom);
+    name_sem = strcat(name_sem, "_last");
+    m->mp->sem_last = sem_open(name_sem, O_CREAT, 0600, 1);
+    if (m->mp->sem_last == SEM_FAILED) {
+        perror("error cration semaphore last");
+        return NULL;
+    }
+
     msync(m->mp, len, MS_SYNC);
     return m;
 

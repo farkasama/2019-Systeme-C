@@ -1,37 +1,34 @@
 #include "STRUCTURE.c"
 
-int msg_unlink(const char *name) {
-    Memoire_Partage mp;
-    if (mp == NULL) {
-        perror("error malloc");
+int msg_unlink(const char* name) {
+    if (name == NULL) {
+        perror("name empty");
+        return -1;
+    }
+    if (strchr(name, '/') == NULL) {
+        char* n = malloc(sizeof(char)*(strlen(name)+1));
+        strcpy(n, "/");
+        name = strcat(n, name);
+    }
+    else if (strchr(name, '/') != name) {
+        perror("error name with '/'");
         return -1;
     }
 
-    int fd = shm_open(name, O_WRONLY, 0600);
-    if (fd == -1) {
-        perror("error open");
-        return -1;
+    if (shm_unlink(name) == -1) {
+        perror("error shm unlink");
+        return -1
     }
+    return 0;
 
-    struct stat st;
-    if (fstat(fd, &st) == -1) {
-        perror("fstat");
-        return -1;
-    }
-    mp = mmap(0, st.st_size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
-    mp.acces = 1;
-    shm_unlink(name);
 }
 
-
 int msg_disconnect(MESSAGE *file) {
-
-
-
     if (file  == NULL) {
-        perror("erreur malloc");
+        perror("error file null");
         return -1;
     }
+    file->mp->nb_proc--;
     file = NULL;
     return   0;
 }
