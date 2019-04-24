@@ -81,12 +81,6 @@
 		<Unit filename="/home/will/CLionProjects/Projet-Systeme-C/Main.c">
 			<Option target="untitled"/>
 		</Unit>
-		<Unit filename="/home/will/CLionProjects/Projet-Systeme-C/Receive.c">
-			<Option target="untitled"/>
-		</Unit>
-		<Unit filename="/home/will/CLionProjects/Projet-Systeme-C/etatfile.c">
-			<Option target="untitled"/>
-		</Unit>
 		<Unit filename="/home/will/CLionProjects/Projet-Systeme-C/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>

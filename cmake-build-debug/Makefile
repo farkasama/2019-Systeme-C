@@ -150,60 +150,6 @@ Main.c.s:
 	$(MAKE) -f CMakeFiles/untitled.dir/build.make CMakeFiles/untitled.dir/Main.c.s
 .PHONY : Main.c.s
 
-Receive.o: Receive.c.o
-
-.PHONY : Receive.o
-
-# target to build an object file
-Receive.c.o:
-	$(MAKE) -f CMakeFiles/untitled.dir/build.make CMakeFiles/untitled.dir/Receive.c.o
-.PHONY : Receive.c.o
-
-Receive.i: Receive.c.i
-
-.PHONY : Receive.i
-
-# target to preprocess a source file
-Receive.c.i:
-	$(MAKE) -f CMakeFiles/untitled.dir/build.make CMakeFiles/untitled.dir/Receive.c.i
-.PHONY : Receive.c.i
-
-Receive.s: Receive.c.s
-
-.PHONY : Receive.s
-
-# target to generate assembly for a file
-Receive.c.s:
-	$(MAKE) -f CMakeFiles/untitled.dir/build.make CMakeFiles/untitled.dir/Receive.c.s
-.PHONY : Receive.c.s
-
-etatfile.o: etatfile.c.o
-
-.PHONY : etatfile.o
-
-# target to build an object file
-etatfile.c.o:
-	$(MAKE) -f CMakeFiles/untitled.dir/build.make CMakeFiles/untitled.dir/etatfile.c.o
-.PHONY : etatfile.c.o
-
-etatfile.i: etatfile.c.i
-
-.PHONY : etatfile.i
-
-# target to preprocess a source file
-etatfile.c.i:
-	$(MAKE) -f CMakeFiles/untitled.dir/build.make CMakeFiles/untitled.dir/etatfile.c.i
-.PHONY : etatfile.c.i
-
-etatfile.s: etatfile.c.s
-
-.PHONY : etatfile.s
-
-# target to generate assembly for a file
-etatfile.c.s:
-	$(MAKE) -f CMakeFiles/untitled.dir/build.make CMakeFiles/untitled.dir/etatfile.c.s
-.PHONY : etatfile.c.s
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -216,12 +162,6 @@ help:
 	@echo "... Main.o"
 	@echo "... Main.i"
 	@echo "... Main.s"
-	@echo "... Receive.o"
-	@echo "... Receive.i"
-	@echo "... Receive.s"
-	@echo "... etatfile.o"
-	@echo "... etatfile.i"
-	@echo "... etatfile.s"
 .PHONY : help
 
 

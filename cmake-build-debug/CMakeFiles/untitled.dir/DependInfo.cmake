@@ -5,8 +5,6 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
   "/home/will/CLionProjects/Projet-Systeme-C/Main.c" "/home/will/CLionProjects/Projet-Systeme-C/cmake-build-debug/CMakeFiles/untitled.dir/Main.c.o"
-  "/home/will/CLionProjects/Projet-Systeme-C/Receive.c" "/home/will/CLionProjects/Projet-Systeme-C/cmake-build-debug/CMakeFiles/untitled.dir/Receive.c.o"
-  "/home/will/CLionProjects/Projet-Systeme-C/etatfile.c" "/home/will/CLionProjects/Projet-Systeme-C/cmake-build-debug/CMakeFiles/untitled.dir/etatfile.c.o"
   )
 set(CMAKE_C_COMPILER_ID "GNU")
 
