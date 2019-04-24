@@ -1,6 +1,6 @@
 #include "STRUCTURE.c"
 
-int msg_unlink(const char* name) {
+int msg_unlink(const char *name) {
     Memoire_Partage mp;
     if (mp == NULL) {
         perror("error malloc");
@@ -17,7 +17,20 @@ int msg_unlink(const char* name) {
         perror("fstat");
         return -1;
     }
-    mp = mmap(0, st.st_size, PROT_READ|PROT_WRITE, MAP_SHARED, fd, 0);
+    mp = mmap(0, st.st_size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
     mp.acces = 1;
     shm_unlink(name);
+}
+
+
+int msg_disconnect(MESSAGE *file) {
+
+
+
+    if (file  == NULL) {
+        perror("erreur malloc");
+        return -1;
+    }
+    file = NULL;
+    return   0;
 }

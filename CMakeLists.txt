@@ -3,4 +3,9 @@ project(untitled C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(untitled Main.c etatfile.c Receive.c)
+find_package(Threads)
+
+add_executable(untitled Main.c)
+
+target_link_libraries(untitled rt)
+target_link_libraries(untitled ${CMAKE_THREAD_LIBS_INIT})
