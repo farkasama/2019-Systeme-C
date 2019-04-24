@@ -17,6 +17,24 @@ MESSAGE *msg_connect(const char *nom, int options, size_t nb_message, size_t len
             perror("mmap anonyme");
             return NULL;
         }
+
+        m->mp->first = -1;
+        m->mp->last = 0;
+        m->mp->capacite = nb_message;
+        m->mp->longueur = len_max;
+        m->mp->liste[nb_message];
+
+        if (sem_init(m->mp->sem_first, 0, 1) == -1) {
+            perror("error init sem anonym first");
+            return NULL;
+        }
+
+        if (sem_init(m->mp->sem_last, 0, 1) == -1) {
+            perror("error init sem anonym last");
+            return NULL;
+        }
+        msync(m->mp, sizeof(Memoire_Partage) + nb_message * len_max, MS_SYNC);
+        return m;
     } else if (strchr(nom, '/') == NULL) {
         char *n = malloc(sizeof(char) * (strlen(nom) + 1));
         strcpy(n, "/");
