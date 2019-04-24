@@ -12,6 +12,7 @@ int msg_unlink(const char *name) {
         perror("error open");
         return -1;
     }
+
     struct stat st;
     if (fstat(fd, &st) == -1) {
         perror("fstat");
