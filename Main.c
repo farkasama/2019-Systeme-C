@@ -2,6 +2,7 @@
 
 
 int main(int argc, char *argv[]) {
+
     int pid = fork();
 
     if (pid == 0) {
@@ -11,7 +12,7 @@ int main(int argc, char *argv[]) {
         }
         char *texte = "test OUI OUI";
         int send = msg_send(m, texte, strlen(texte));
-        printf("%d\n", send);
+        //printf("%d\n", send);
 
         sleep(3);
         char* message_r = malloc(100);

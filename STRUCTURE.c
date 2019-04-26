@@ -19,6 +19,8 @@ struct Memoire_Partage {
     int first;
     int last;
     int taille_fichier;
+    int pid;
+    int sig;
     sem_t* sem_first;
     sem_t* sem_last;
     char liste[];
