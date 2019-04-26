@@ -64,21 +64,28 @@ MESSAGE *msg_connect(const char *nom, int options, size_t nb_message, size_t len
     }
 
     if ((options & O_CREAT) != O_CREAT) {
+
         struct stat st;
         if (fstat(fd, &st) == -1) {
             perror("fstat");
             return NULL;
         }
+
         int len = st.st_size;
+
         m->mp = malloc(len);
         m->mp = mmap(0, len, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+
         if (m->mp == MAP_FAILED) {
             perror("echec mmap");
             return NULL;
         }
+
+
         char* name_sem = malloc(sizeof(char)*(strlen(nom)+6));
         strcpy(name_sem, nom);
         name_sem = strcat(name_sem, "_first");
+
         m->mp->sem_first = sem_open(name_sem, 0);
         if (m->mp->sem_first== SEM_FAILED) {
             perror("error creation semaphore first already exist");
@@ -92,7 +99,6 @@ MESSAGE *msg_connect(const char *nom, int options, size_t nb_message, size_t len
             perror("error cration semaphore last already exist");
             return NULL;
         }
-        m->mp->nb_proc++;
         return m;
     }
 
@@ -116,8 +122,8 @@ MESSAGE *msg_connect(const char *nom, int options, size_t nb_message, size_t len
     m->mp->capacite = nb_message;
     m->mp->first = -1;
     m->mp->last = 0;
-    m->mp->nb_proc = 1;
-    m->mp->liste[nb_message];
+    m->mp->taille_fichier = len;
+    m->mp->liste[nb_message*len_max];
 
     char* name_sem = malloc(sizeof(char)*(strlen(nom)+6));
     strcpy(name_sem, nom);

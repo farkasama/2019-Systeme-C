@@ -27,34 +27,45 @@ int verification_send(MESSAGE* file, size_t len) {
 
 int envoie (MESSAGE* file, const char* msg, size_t len) {
     int indice;
+    int i;
 
     if (sem_wait(file->mp->sem_first) == -1) {
         perror("error semaphore wait send");
         return -1;
     }
+
+    if (file->mp->first+len > file->mp->capacite*file->mp->longueur) {
+        i = (file->mp->first+len) - (file->mp->capacite*file->mp->longueur);
+    }
+    else
+        i = -1;
+
     if (file->mp->first == -1) {
         indice = file->mp->last;
-        file->mp->first = (file->mp->last+1)%file->mp->capacite;
-        //printf("%d\n", indice);
+        file->mp->first = (file->mp->last+len+1)%(file->mp->capacite*file->mp->longueur);
+
     }
     else  {
         indice = file->mp->first;
-        file->mp->first = (file->mp->first+1)%file->mp->capacite;
+        file->mp->first = (file->mp->first+len+1)%(file->mp->capacite*file->mp->longueur);
     }
+
     if (sem_post(file->mp->sem_first) == -1) {
         perror("error semaphore release send");
         return -1;
     }
 
-
-    if (file->mp->liste[indice] == NULL) {
-        file->mp->liste[indice] = malloc(len);
-        if (file->mp->liste[indice] == NULL) {
-            perror("error malloc");
-            return -1;
-        }
+    if (i != -1)
+        memmove(file->mp->liste+indice, msg, len+1);
+    else {
+        memmove(file->mp->liste+indice, msg, len-i);
+        memmove(file->mp->liste, msg+len-i,i+1);
     }
-    memcpy(file->mp->liste[indice], msg, len);
+    if (msync(file->mp, file->mp->taille_fichier, MS_SYNC) == -1) {
+        perror("error synchronisation envoie memoire partage");
+        return -1;
+    }
+
     return 0;
 }
 
@@ -64,7 +75,9 @@ int msg_send(MESSAGE* file, const char* msg, size_t len) {
         return -1;
     }
 
-    while(file->mp->first == file->mp->last);
+    if (file->mp->first != -1) {
+        while ((file->mp->first + len + 1) % (file->mp->capacite * file->mp->longueur) >= file->mp->last);
+    }
 
     return envoie(file, msg, len);
 }
@@ -75,7 +88,7 @@ int msg_trysend(MESSAGE* file, const char* msg, size_t len) {
         return -1;
     }
 
-    if (file->mp->first == file->mp->last) {
+    if (file->mp->first != -1 && (file->mp->first+len+1)%(file->mp->capacite*file->mp->longueur) >= file->mp->last) {
         perror("file pleine");
         return -1;
     }

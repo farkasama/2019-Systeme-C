@@ -18,10 +18,10 @@ struct Memoire_Partage {
     size_t capacite;
     int first;
     int last;
-    int nb_proc;
+    int taille_fichier;
     sem_t* sem_first;
     sem_t* sem_last;
-    void* liste[];
+    char liste[];
 };
 
 typedef struct MESSAGE MESSAGE;
