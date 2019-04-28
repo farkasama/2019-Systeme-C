@@ -25,40 +25,55 @@ int verification_send(MESSAGE *file, size_t len) {
     return 0;
 }
 
-int envoie(MESSAGE *file, const char *msg, size_t len) {
+int envoie(MESSAGE *file, const void *msg, size_t len) {
     int indice;
-    int i;
 
     if (sem_wait(file->mp->sem_first) == -1) {
-        perror("error semaphore wait send");
+        perror("error semaphore wait first send");
         return -1;
     }
 
-    if (file->mp->first + len > file->mp->capacite * file->mp->longueur) {
-        i = (file->mp->first + len) - (file->mp->capacite * file->mp->longueur);
-    } else
-        i = -1;
+    if (file->mp->first + sizeof(size_t) + len > file->mp->capacite) {
+        if (sem_wait(file->mp->sem_last) == -1) {
+            perror("error semaphore wait last send");
+            return -1;
+        }
+
+        if (file->mp->first == -1) {
+            file->mp->last = 0;
+        }
+        else {
+            memmove(file->mp->liste, file->mp->liste + file->mp->last, file->mp->first - file->mp->last);
+            file->mp->last = 0;
+            file->mp->first = file->mp->first - file->mp->last;
+        }
+
+        if (sem_post(file->mp->sem_last) == -1) {
+            perror("error semaphore release last send");
+            return -1;
+        }
+    }
 
     if (file->mp->first == -1) {
         indice = file->mp->last;
-        file->mp->first = (file->mp->last + len + 1) % (file->mp->capacite * file->mp->longueur);
+        file->mp->first = file->mp->last + len + sizeof(size_t);
 
     } else {
         indice = file->mp->first;
-        file->mp->first = (file->mp->first + len + 1) % (file->mp->capacite * file->mp->longueur);
+        file->mp->first = file->mp->first + len + sizeof(size_t);
     }
 
     if (sem_post(file->mp->sem_first) == -1) {
-        perror("error semaphore release send");
+        perror("error semaphore release first send");
         return -1;
     }
 
-    if (i != -1)
-        memmove(file->mp->liste + indice, msg, len + 1);
-    else {
-        memmove(file->mp->liste + indice, msg, len - i);
-        memmove(file->mp->liste, msg + len - i, i + 1);
-    }
+
+    memmove(file->mp->liste + indice, &len, sizeof(size_t));
+    memmove(file->mp->liste + indice + sizeof(size_t), msg, len);
+
+    file->mp->nb_message++;
+
     if (msync(file->mp, file->mp->taille_fichier, MS_SYNC) == -1) {
         perror("error synchronisation envoie memoire partage");
         return -1;
@@ -67,27 +82,27 @@ int envoie(MESSAGE *file, const char *msg, size_t len) {
     return 0;
 }
 
-int msg_send(MESSAGE *file, const char *msg, size_t len) {
+int msg_send(MESSAGE *file, const void *msg, size_t len) {
 
     if (verification_send(file, len) == -1) {
         return -1;
     }
 
     if (file->mp->first != -1) {
-        while ((file->mp->first + len + 1) % (file->mp->capacite * file->mp->longueur) >= file->mp->last);
+        while ((file->mp->first + len + sizeof(size_t)) % (file->mp->capacite) >= file->mp->last);
     }
 
     return envoie(file, msg, len);
 }
 
-int msg_trysend(MESSAGE *file, const char *msg, size_t len) {
+int msg_trysend(MESSAGE *file, const void *msg, size_t len) {
 
     if (verification_send(file, len) == -1) {
         return -1;
     }
 
     if (file->mp->first != -1 &&
-        (file->mp->first + len + 1) % (file->mp->capacite * file->mp->longueur) >= file->mp->last) {
+        (file->mp->first + len + sizeof(size_t)) % (file->mp->capacite) >= file->mp->last) {
         perror("file pleine");
         return -1;
     }
