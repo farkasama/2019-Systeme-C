@@ -18,7 +18,6 @@ struct Memoire_Partage {
     size_t longueur;
     size_t nb_message_max;
     size_t nb_message;
-    size_t capacite;
     int first;
     int last;
     int taille_fichier;

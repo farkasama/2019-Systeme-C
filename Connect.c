@@ -121,13 +121,12 @@ MESSAGE *msg_connect(const char *nom, int options, size_t nb_message, size_t len
     m->mp->longueur = len_max;
     m->mp->nb_message = 0;
     m->mp->nb_message_max = nb_message;
-    m->mp->capacite = nb_message*len_max + nb_message*sizeof(size_t);
     m->mp->first = -1;
     m->mp->last = 0;
     m->mp->taille_fichier = len;
     m->mp->pid = -1;
     m->mp->sig = 0;
-    m->mp->liste[len_max*nb_message + nb_message* sizeof(size_t)];
+    m->mp->liste[len_max*nb_message + nb_message*sizeof(size_t)];
 
     char* name_sem = malloc(sizeof(char)*(strlen(nom)+6));
     strcpy(name_sem, nom);

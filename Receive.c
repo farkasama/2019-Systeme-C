@@ -43,6 +43,8 @@ ssize_t reception(MESSAGE* file, void *msg, size_t len) {
     memmove(taille, file->mp->liste + file->mp->last, sizeof(size_t));
     file->mp->last += sizeof(size_t) + *taille;
 
+    file->mp->nb_message--;
+
     if (sem_post(file->mp->sem_last) == -1) {
         perror("error semaphore release last reception");
         return -1;
@@ -52,7 +54,7 @@ ssize_t reception(MESSAGE* file, void *msg, size_t len) {
         perror("error semaphore wait first reception");
         return -1;
     }
-    if (file->mp->last == file->mp->first) {
+    if (file->mp->nb_message == 0) {
         file->mp->first = -1;
     }
     if (sem_post(file->mp->sem_first) == -1) {

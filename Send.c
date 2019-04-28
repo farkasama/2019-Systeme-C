@@ -33,7 +33,7 @@ int envoie(MESSAGE *file, const void *msg, size_t len) {
         return -1;
     }
 
-    if (file->mp->first + sizeof(size_t) + len > file->mp->capacite) {
+    if (file->mp->first + sizeof(size_t) + len > file->mp->nb_message * file->mp->longueur) {
         if (sem_wait(file->mp->sem_last) == -1) {
             perror("error semaphore wait last send");
             return -1;
@@ -88,9 +88,7 @@ int msg_send(MESSAGE *file, const void *msg, size_t len) {
         return -1;
     }
 
-    if (file->mp->first != -1) {
-        while ((file->mp->first + len + sizeof(size_t)) % (file->mp->capacite) >= file->mp->last);
-    }
+    while (file->mp->nb_message == file->mp->nb_message_max);
 
     return envoie(file, msg, len);
 }
@@ -101,8 +99,7 @@ int msg_trysend(MESSAGE *file, const void *msg, size_t len) {
         return -1;
     }
 
-    if (file->mp->first != -1 &&
-        (file->mp->first + len + sizeof(size_t)) % (file->mp->capacite) >= file->mp->last) {
+    if (file->mp->nb_message == file->mp->nb_message_max) {
         perror("file pleine");
         return -1;
     }
