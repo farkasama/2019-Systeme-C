@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <semaphore.h>
+#include <sys/uio.h>
 
 typedef struct Memoire_Partage Memoire_Partage;
 struct Memoire_Partage {

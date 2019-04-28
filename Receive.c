@@ -118,3 +118,8 @@ ssize_t msg_tryreceive(MESSAGE *file, char *msg, size_t len) {
     return reception(file, msg, len);
 }
 
+ssize_t msg_readv(MESSAGE *message, struct *iov, int iovcnt){
+
+
+
+}

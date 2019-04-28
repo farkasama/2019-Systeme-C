@@ -1,18 +1,4 @@
 /snap/clion/69/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/will/CLionProjects/Projet-Systeme-C
--- Looking for pthread.h
--- Looking for pthread.h - found
--- Looking for pthread_create
--- Looking for pthread_create - not found
--- Looking for pthread_create in pthreads
--- Looking for pthread_create in pthreads - not found
--- Looking for pthread_create in pthread
--- Looking for pthread_create in pthread - found
--- Found Threads: TRUE  
-CMake Error at CMakeLists.txt:10 (target_link_libraries):
-  Cannot specify link libraries for target "untilted" which is not built by
-  this project.
-
-
--- Configuring incomplete, errors occurred!
-See also "/home/will/CLionProjects/Projet-Systeme-C/cmake-build-debug/CMakeFiles/CMakeOutput.log".
-See also "/home/will/CLionProjects/Projet-Systeme-C/cmake-build-debug/CMakeFiles/CMakeError.log".
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/will/CLionProjects/Projet-Systeme-C/cmake-build-debug

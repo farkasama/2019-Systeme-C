@@ -27,8 +27,8 @@
 					<DistClean command="/usr/bin/make -j3 -f &quot;/home/will/CLionProjects/Projet-Systeme-C/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
-			<Target title="untitled">
-				<Option output="/home/will/CLionProjects/Projet-Systeme-C/cmake-build-debug/untitled" prefix_auto="0" extension_auto="0"/>
+			<Target title="untilted">
+				<Option output="/home/will/CLionProjects/Projet-Systeme-C/cmake-build-debug/untilted" prefix_auto="0" extension_auto="0"/>
 				<Option working_dir="/home/will/CLionProjects/Projet-Systeme-C/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
@@ -41,14 +41,14 @@
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j3 -f &quot;/home/will/CLionProjects/Projet-Systeme-C/cmake-build-debug/Makefile&quot;  VERBOSE=1 untitled"/>
+					<Build command="/usr/bin/make -j3 -f &quot;/home/will/CLionProjects/Projet-Systeme-C/cmake-build-debug/Makefile&quot;  VERBOSE=1 untilted"/>
 					<CompileFile command="/usr/bin/make -j3 -f &quot;/home/will/CLionProjects/Projet-Systeme-C/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
 					<Clean command="/usr/bin/make -j3 -f &quot;/home/will/CLionProjects/Projet-Systeme-C/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 					<DistClean command="/usr/bin/make -j3 -f &quot;/home/will/CLionProjects/Projet-Systeme-C/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
-			<Target title="untitled/fast">
-				<Option output="/home/will/CLionProjects/Projet-Systeme-C/cmake-build-debug/untitled" prefix_auto="0" extension_auto="0"/>
+			<Target title="untilted/fast">
+				<Option output="/home/will/CLionProjects/Projet-Systeme-C/cmake-build-debug/untilted" prefix_auto="0" extension_auto="0"/>
 				<Option working_dir="/home/will/CLionProjects/Projet-Systeme-C/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
@@ -61,7 +61,7 @@
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j3 -f &quot;/home/will/CLionProjects/Projet-Systeme-C/cmake-build-debug/Makefile&quot;  VERBOSE=1 untitled/fast"/>
+					<Build command="/usr/bin/make -j3 -f &quot;/home/will/CLionProjects/Projet-Systeme-C/cmake-build-debug/Makefile&quot;  VERBOSE=1 untilted/fast"/>
 					<CompileFile command="/usr/bin/make -j3 -f &quot;/home/will/CLionProjects/Projet-Systeme-C/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
 					<Clean command="/usr/bin/make -j3 -f &quot;/home/will/CLionProjects/Projet-Systeme-C/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 					<DistClean command="/usr/bin/make -j3 -f &quot;/home/will/CLionProjects/Projet-Systeme-C/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
@@ -79,7 +79,7 @@
 			</Target>
 		</Build>
 		<Unit filename="/home/will/CLionProjects/Projet-Systeme-C/Main.c">
-			<Option target="untitled"/>
+			<Option target="untilted"/>
 		</Unit>
 		<Unit filename="/home/will/CLionProjects/Projet-Systeme-C/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
