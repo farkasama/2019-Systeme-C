@@ -45,6 +45,8 @@ ssize_t reception(MESSAGE* file, void *msg, size_t len) {
 
     file->mp->nb_message--;
 
+    file->mp->nb_proc_att--;
+
     if (sem_post(file->mp->sem_last) == -1) {
         perror("error semaphore release last reception");
         return -1;
@@ -81,6 +83,8 @@ ssize_t reception(MESSAGE* file, void *msg, size_t len) {
 ssize_t msg_receive(MESSAGE *file, void *msg, size_t len) {
 
     verification_receive(file, len);
+
+    file->mp->nb_proc_att++;
 
     while (file->mp->nb_message == 0);
 

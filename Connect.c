@@ -18,11 +18,15 @@ MESSAGE *msg_connect(const char *nom, int options, size_t nb_message, size_t len
             return NULL;
         }
 
+        m->mp->longueur = len_max;
+        m->mp->nb_message = 0;
+        m->mp->nb_message_max = nb_message;
         m->mp->first = -1;
         m->mp->last = 0;
-        m->mp->capacite = nb_message;
-        m->mp->longueur = len_max;
-        //m->mp->liste[nb_message];
+        m->mp->taille_fichier = sizeof(Memoire_Partage) + nb_message*len_max + nb_message*sizeof(size_t);
+        m->mp->pid = -1;
+        m->mp->sig = 0;
+        m->mp->liste[len_max*nb_message + nb_message*sizeof(size_t)];
 
         if (sem_init(m->mp->sem_first, 0, 1) == -1) {
             perror("error init sem anonym first");
@@ -102,7 +106,7 @@ MESSAGE *msg_connect(const char *nom, int options, size_t nb_message, size_t len
         return m;
     }
 
-    int len = sizeof(Memoire_Partage) + nb_message * len_max;
+    int len = sizeof(Memoire_Partage) + nb_message*len_max + nb_message*sizeof(size_t);
 
     if (ftruncate(fd, len) == -1) {
         perror("ftruncate error");

@@ -1,6 +1,6 @@
 #include "Receive.c"
 
-int msg_registrer_signal(MESSAGE* file, int sig) {
+int msg_registrer_signal(MESSAGE *file, int sig) {
     if (file == NULL) {
         perror("file inutilisable");
         return -1;
@@ -20,7 +20,7 @@ int msg_registrer_signal(MESSAGE* file, int sig) {
     return 0;
 }
 
-int msg_cancel_signal(MESSAGE* file) {
+int msg_cancel_signal(MESSAGE *file) {
     if (file == NULL) {
         perror("file inutilisable");
         return -1;
@@ -33,7 +33,7 @@ int msg_cancel_signal(MESSAGE* file) {
         perror("pas de processus enregistrer");
         return -1;
     }
-    if (file->mp->pid != getpid()){
+    if (file->mp->pid != getpid()) {
         perror("pas autorise");
         return -1;
     }

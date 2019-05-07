@@ -72,6 +72,12 @@ int envoie(MESSAGE *file, const void *msg, size_t len) {
     memmove(file->mp->liste + indice, &len, sizeof(size_t));
     memmove(file->mp->liste + indice + sizeof(size_t), msg, len);
 
+    if (file->mp->nb_message == 0 && file->mp->nb_proc_att == 0 && file->mp->pid != -1) {
+        kill(file->mp->pid, file->mp->sig);
+        file->mp->pid = -1;
+        file->mp->sig = 0;
+    }
+
     file->mp->nb_message++;
 
     if (msync(file->mp, file->mp->taille_fichier, MS_SYNC) == -1) {
