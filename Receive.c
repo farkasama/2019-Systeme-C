@@ -1,7 +1,7 @@
 #include "Send.c"
 
 //Fonction qui verifie si la file n'est pas detruite ou si il n'y a pas un probleme de permissions
-ssize_t verification_receive(MESSAGE* file, size_t len) {
+ssize_t verification_receive(MESSAGE *file, size_t len) {
 
     //Si la file est inutilisable
     if (file == NULL) {
@@ -32,7 +32,7 @@ ssize_t verification_receive(MESSAGE* file, size_t len) {
 
 /*************************************************************************************************************/
 
-ssize_t reception(MESSAGE* file, void *msg, size_t len) {
+ssize_t reception(MESSAGE *file, void *msg, size_t len) {
     int indice;
     size_t *taille = malloc(sizeof(size_t));
 
@@ -65,7 +65,7 @@ ssize_t reception(MESSAGE* file, void *msg, size_t len) {
 
     //On alloue bien de la memoire a la variable passe en argument
     if (msg == NULL) {
-        msg = malloc(len*sizeof(char));
+        msg = malloc(len * sizeof(char));
     } else {
         msg = realloc(msg, len);
     }
@@ -120,8 +120,31 @@ ssize_t msg_tryreceive(MESSAGE *file, char *msg, size_t len) {
 
 /*************************************************************************************************************/
 
-ssize_t msg_readv(MESSAGE *message, struct iovec *iov, int iovcnt) {
+ssize_t msg_readv(MESSAGE *message, struct iovec *iov, int count) {
+    if (message->mp->nb_message == 0) {
+        perror("file vide");
+        return -1;
+    }
+    if (sem_wait(message->mp->sem_last) == -1) {
+        perror("error semaphore");
+        return -1;
+    }
+    ssize_t taille = 0;
 
+    for (int i = 0; i < count || i < message->mp->nb_message; ++i) {
+        size_t *t = malloc(sizeof(size_t));
+        memmove(t, message->mp->liste + message->mp->last, sizeof(size_t));
+        iov[i].iov_len = *t;
+        iov[i].iov_base = malloc(*t);
+        memmove(iov[i].iov_base, message->mp->liste + message->mp->last + sizeof(size_t), *t);
+        message->mp->last = sizeof(size_t) + *t;
+        taille += *t;
 
-    return 0;
+    }
+    if (sem_post(message->mp->sem_last) == -1) {
+        perror("error semaphore");
+        return -1;
+    }
+    return taille;
+
 }
