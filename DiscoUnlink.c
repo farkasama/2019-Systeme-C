@@ -1,16 +1,15 @@
 #include "STRUCTURE.c"
 
-int msg_unlink(const char* name) {
+int msg_unlink(const char *name) {
     if (name == NULL) {
         perror("name empty");
         return -1;
     }
     if (strchr(name, '/') == NULL) {
-        char* n = malloc(sizeof(char)*(strlen(name)+1));
+        char *n = malloc(sizeof(char) * (strlen(name) + 1));
         strcpy(n, "/");
         name = strcat(n, name);
-    }
-    else if (strchr(name, '/') != name) {
+    } else if (strchr(name, '/') != name) {
         perror("error name with '/'");
         return -1;
     }
@@ -24,11 +23,11 @@ int msg_unlink(const char* name) {
 }
 
 int msg_disconnect(MESSAGE *file) {
-    if (file  == NULL) {
+    if (file == NULL) {
         perror("error file null");
         return -1;
     }
     file->mp->nb_proc--;
     file = NULL;
-    return   0;
+    return 0;
 }

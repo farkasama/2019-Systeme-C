@@ -219,7 +219,7 @@ ssize_t msg_writev(MESSAGE *file, struct iovec *iov, int iovcnt) {
             file->mp->first = 0;
             file->mp->last = 0;
         }
-        //Sinon on doit deplacer tous les messages (donc de first-last) qui commencent a last au debut de la file
+            //Sinon on doit deplacer tous les messages (donc de first-last) qui commencent a last au debut de la file
         else {
             memmove(file->mp->liste, file->mp->liste + file->mp->last, file->mp->first - file->mp->last);
             //le premier octect libre se trouve desormais a first-last

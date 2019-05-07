@@ -16,7 +16,8 @@ MESSAGE *msg_connect(const char *nom, int options, size_t nb_message, size_t len
         m->permission = O_RDWR;
 
         //on creer la memoire partager en anonyme
-        m->mp = mmap(NULL, sizeof(Memoire_Partage) + nb_message * len_max + nb_message * sizeof(size_t), PROT_READ | PROT_WRITE,
+        m->mp = mmap(NULL, sizeof(Memoire_Partage) + nb_message * len_max + nb_message * sizeof(size_t),
+                     PROT_READ | PROT_WRITE,
                      MAP_SHARED | MAP_ANONYMOUS, -1, 0);
 
         //On verifie si le mmap a bien fonctionner
@@ -60,15 +61,15 @@ MESSAGE *msg_connect(const char *nom, int options, size_t nb_message, size_t len
         return m;
     }
 
-    //Sinon si la structure demande n'est pas une file anonyme
+        //Sinon si la structure demande n'est pas une file anonyme
 
-    //Si le nom de la structure demande ne commence par par '/' alors on lui ajoute au debut
+        //Si le nom de la structure demande ne commence par par '/' alors on lui ajoute au debut
     else if (strchr(nom, '/') == NULL) {
         char *n = malloc(sizeof(char) * (strlen(nom) + 1));
         strcpy(n, "/");
         nom = strcat(n, nom);
     }
-    //Sinon si le nom de la structure contient le caractere '/' mais ne commence pas par celui la alors retourn une erreur
+        //Sinon si le nom de la structure contient le caractere '/' mais ne commence pas par celui la alors retourn une erreur
     else if (strchr(nom, '/') != nom) {
         perror("error name with '/'");
         return NULL;
@@ -87,7 +88,7 @@ MESSAGE *msg_connect(const char *nom, int options, size_t nb_message, size_t len
     if ((options & O_RDWR) == O_RDWR) {
         m->permission = O_RDWR;
     }
-    //Si s'en ai aucun (ce qui est impossible mais on ne sait jamais)
+        //Si s'en ai aucun (ce qui est impossible mais on ne sait jamais)
     else {
         perror("aucune permission accorde");
         return NULL;

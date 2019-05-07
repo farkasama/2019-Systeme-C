@@ -108,9 +108,14 @@ ssize_t msg_tryreceive(MESSAGE *file, char *msg, size_t len) {
     //On verifie qu'il n'y a pas d'erreur
     verification_receive(file, len);
 
+    //On ajoute le processus en attente
+    file->mp->nb_proc_att++;
+
     //Si la file est vide on retourne une erreur
     if (file->mp->nb_message == 0) {
         perror("file empty");
+        //Il attend plus
+        file->mp->nb_proc_att--;
         return -1;
     }
 
@@ -121,30 +126,59 @@ ssize_t msg_tryreceive(MESSAGE *file, char *msg, size_t len) {
 /*************************************************************************************************************/
 
 ssize_t msg_readv(MESSAGE *message, struct iovec *iov, int count) {
+
+    //Si la file est vide
     if (message->mp->nb_message == 0) {
         perror("file vide");
         return -1;
     }
+
+    //On ouvre le semaphore de last
     if (sem_wait(message->mp->sem_last) == -1) {
         perror("error semaphore");
         return -1;
     }
-    ssize_t taille = 0;
 
+    //Un processus est en train de lire plusieurs message
+    message->mp->nb_proc_att++;
+
+    //On initialise
+    ssize_t taille = 0;
+    int j = 0;
+
+    //Pour le nombre de messages qu'on veut stocker ou le nombre de message qu'il y a dans la file ("si m < n")
     for (int i = 0; i < count || i < message->mp->nb_message; ++i) {
+        //on stock la longueur du message et on verifie qu'il n'y a pas d'erreur
         size_t *t = malloc(sizeof(size_t));
+        if (t == NULL) {
+            perror("malloc");
+            return -1;
+        }
         memmove(t, message->mp->liste + message->mp->last, sizeof(size_t));
         iov[i].iov_len = *t;
+
+        //On alloue de la memoire pour le message et on verifie qu'il n'y a pas d'erreur
         iov[i].iov_base = malloc(*t);
+        if (iov[i].iov_base == NULL) {
+            perror("malloc");
+            return -1;
+        }
         memmove(iov[i].iov_base, message->mp->liste + message->mp->last + sizeof(size_t), *t);
         message->mp->last = sizeof(size_t) + *t;
         taille += *t;
-
+        j++;
     }
+
+    //On decremente
+    message->mp->nb_message -= j;
+    message->mp->nb_proc_att--;
+
+    //On relache le semaphore et on verifie qu'il n'y a pas d'erreur
     if (sem_post(message->mp->sem_last) == -1) {
         perror("error semaphore");
         return -1;
     }
-    return taille;
 
+    //On retourne la taille de tous les messages
+    return taille;
 }
